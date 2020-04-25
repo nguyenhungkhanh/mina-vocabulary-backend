@@ -105,8 +105,30 @@ const updatePassword = async (request, response) => {
   }
 };
 
+const getMe = async (request, response) => {
+  try {
+    const { _id } = request.decoded;
+    const userExisted = await User.findById(_id);
+
+    if (!userExisted) {
+      return response.status(404).json({ status: 404, message: 'User not found.' })
+    }
+
+    return response.status(200).json({
+      status: 200,
+      data: {
+        email: userExisted.email
+      }
+    })
+  } catch(error) {
+    console.log(error);
+    return response.status(500).json({ status: 500, message: 'Opps! Something went wrong when call api.' })
+  }
+};
+
 module.exports = {
   login,
   resetPassword,
-  updatePassword
+  updatePassword,
+  getMe
 }
