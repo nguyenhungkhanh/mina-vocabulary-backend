@@ -12,9 +12,7 @@ module.exports = async (request, response, next) => {
         message: "No token provided."
       })
   }
-
-  console.log(token);
-  
+    
   jwt.verify(token, JWT_SECRET_KEY, function (error, decoded) {
     if (error) {
       return response.status(403).json({
